@@ -98,9 +98,6 @@ func (s *Event) Sign(key string) error {
 	s.Id = hex.EncodeToString(h[:])
 	s.Sig = hex.EncodeToString(sig.Serialize())
 
-	//log.Printf("\n[\033[32m*\033[0m] Client")
-	//log.Printf("  Event signed with SK: %s", key[:10])
-
 	return nil
 }
 
