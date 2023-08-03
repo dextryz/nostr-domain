@@ -85,7 +85,11 @@ func (s *MessageOk) UnmarshalJSON(data []byte) error {
 		s.Ok = true
 	}
 
-	s.Message = string(tmp[3])
+	if len(tmp) < 4 {
+		s.Message = ""
+	} else {
+		s.Message = string(tmp[3])
+	}
 
 	return nil
 }
@@ -94,8 +98,8 @@ func (s MessageOk) MarshalJSON() ([]byte, error) {
 
 	msg := append([]byte(nil), []byte(`["OK",`)...)
 
-	if len(s.EventId) != 0 {
-		msg = append(msg, []byte(s.EventId+`,`)...)
+	if len(s.GetEventId()) != 0 {
+		msg = append(msg, []byte(`"`+s.GetEventId()+`",`)...)
 	}
 
 	if s.Ok {
@@ -151,8 +155,8 @@ func (s MessageEvent) MarshalJSON() ([]byte, error) {
 
 	msg := append([]byte(nil), []byte(`["EVENT",`)...)
 
-	if len(s.SubscriptionId) != 0 {
-		msg = append(msg, []byte(s.SubscriptionId+`,`)...)
+	if len(s.GetSubId()) != 0 {
+		msg = append(msg, []byte(`"`+s.GetSubId()+`",`)...)
 	}
 
 	// Marshal the signed event to a slice of bytes ready for transmission.
