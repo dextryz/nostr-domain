@@ -13,6 +13,14 @@ import (
 	"github.com/btcsuite/btcd/btcutil/bech32"
 )
 
+const Prefix = "nostr:"
+
+const (
+    UriPub = Prefix + "npub"
+    UriProfile = Prefix + "nprofile"
+    UriEvent = Prefix + "nevent"
+)
+
 // NIP-01
 func GeneratePrivateKey() string {
 	params := btcec.S256().Params()
