@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+	"log"
 	"math/big"
 	"strings"
 
@@ -16,9 +17,10 @@ import (
 const Prefix = "nostr:"
 
 const (
-    UriPub = Prefix + "npub"
-    UriProfile = Prefix + "nprofile"
-    UriEvent = Prefix + "nevent"
+	UriPub     = Prefix + "npub"
+	UriProfile = Prefix + "nprofile"
+	// TODO
+	UriEvent = "nevent"
 )
 
 // NIP-01
@@ -60,27 +62,33 @@ func IsValidPublicKeyHex(pk string) bool {
 }
 
 // NIP-19
-func DecodeBech32(bech32string string) (value any, err error) {
+func DecodeBech32(bech32string string) (string, string, error) {
+
 	prefix, bits5, err := bech32.DecodeNoLimit(bech32string)
 	if err != nil {
-		return nil, err
+		return "", "", err
 	}
 
 	data, err := bech32.ConvertBits(bits5, 5, 8, false)
 	if err != nil {
-		return nil, fmt.Errorf("failed translating data into 8 bits: %s", err.Error())
+		return prefix, "", fmt.Errorf("failed translating data into 8 bits: %s", err.Error())
 	}
 
 	switch prefix {
-	case "npub", "nsec":
+	case "npub", "nsec", "note":
 		if len(data) < 32 {
-			return nil, fmt.Errorf("data is less than 32 bytes (%d)", len(data))
+			return prefix, "", fmt.Errorf("data is less than 32 bytes (%d)", len(data))
 		}
-
-		return hex.EncodeToString(data[0:32]), nil
+		return prefix, hex.EncodeToString(data[0:32]), nil
+	case "nprofile":
+		log.Fatalln("nostr: nprofile decoding not implemented")
+	case "nevent":
+		log.Fatalln("nostr: nevent decoding not implemented")
+	case "naddr":
+		log.Fatalln("nostr: naddr decoding not implemented")
 	}
 
-	return data, fmt.Errorf("unknown tag %s", prefix)
+	return prefix, string(data), fmt.Errorf("unknown tag %s", prefix)
 }
 
 // NIP-19
@@ -111,4 +119,19 @@ func EncodePublicKey(publicKeyHex string) (string, error) {
 	}
 
 	return bech32.Encode("npub", bits5)
+}
+
+func EncodeNote(eventIDHex string) (string, error) {
+
+	b, err := hex.DecodeString(eventIDHex)
+	if err != nil {
+		return "", fmt.Errorf("failed to decode event id hex: %w", err)
+	}
+
+	bits5, err := bech32.ConvertBits(b, 8, 5, true)
+	if err != nil {
+		return "", err
+	}
+
+	return bech32.Encode("note", bits5)
 }

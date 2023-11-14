@@ -1,6 +1,6 @@
-module github.com/ffiat/nostr
+module github.com/dextryz/nostr
 
-go 1.19
+go 1.21.0
 
 require (
 	github.com/btcsuite/btcd/btcec/v2 v2.3.2
