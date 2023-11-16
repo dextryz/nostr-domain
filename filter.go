@@ -2,19 +2,15 @@ package nostr
 
 import "strings"
 
+type TagMap map[string][]string
+
 type Filter struct {
-
-	// An id here can be a prefix string to an event ID.
-	Ids []string `json:"ids,omitempty"`
-
-	// Filter by author public keys.
+	Ids     []string `json:"ids,omitempty"`
 	Authors []string `json:"authors,omitempty"`
-
-	// Only broadcast messages with kind in list.
-	Kinds []uint32 `json:"kinds,omitempty"`
-
-	// Maximum number of events to be returned in the initial query.
-	Limit int `json:"limit,omitempty"`
+	Tags    TagMap   `json:"-,omitempty"`
+	Kinds   []uint32 `json:"kinds,omitempty"`
+	Limit   int      `json:"limit,omitempty"`
+	Search  string   `json:"search,omitempty"`
 }
 
 type Filters []Filter

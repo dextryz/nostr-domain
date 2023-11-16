@@ -22,6 +22,7 @@ const (
 	KindSetMetadata     uint32 = 0
 	KindTextNote        uint32 = 1
 	KindRecommendServer uint32 = 2
+	KindArticle         uint32 = 30023
 )
 
 type Event struct {
