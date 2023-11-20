@@ -17,9 +17,8 @@ import (
 const Prefix = "nostr:"
 
 const (
-	UriPub     = Prefix + "npub"
-	UriProfile = Prefix + "nprofile"
-	// TODO
+	UriPub     = "npub"
+	UriProfile = "nprofile"
 	UriEvent = "nevent"
 )
 
