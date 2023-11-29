@@ -19,7 +19,7 @@ const Prefix = "nostr:"
 const (
 	UriPub     = "npub"
 	UriProfile = "nprofile"
-	UriEvent = "nevent"
+	UriEvent   = "nevent"
 )
 
 // NIP-01

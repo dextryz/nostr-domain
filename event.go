@@ -19,10 +19,16 @@ const (
 )
 
 const (
-	KindSetMetadata     uint32 = 0
-	KindTextNote        uint32 = 1
-	KindRecommendServer uint32 = 2
-	KindArticle         uint32 = 30023
+	KindSetMetadata      uint32 = 0
+	KindTextNote         uint32 = 1
+	KindRecommendServer  uint32 = 2
+	KindArticle          uint32 = 30023
+	KindTextExtraction   uint32 = 5000
+	KindSummarize        uint32 = 5001
+	KindTranslation      uint32 = 5002
+	KindTextGeneration   uint32 = 5050
+	KindContentDiscovery uint32 = 5300
+	KindEventCount       uint32 = 5400
 )
 
 type Event struct {
